@@ -1,0 +1,203 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Mar  2 15:17:33 2023
+
+@author: s1950944
+"""
+
+#Importing necessary libraries
+import sys
+from PyQt5.uic import loadUi
+from PyQt5.QtWidgets import QMessageBox, QVBoxLayout, QApplication, QWidget, QPushButton, QComboBox, QSpinBox, QDoubleSpinBox, QLineEdit, QTextEdit
+
+class Quant_Comp(QWidget):
+    """
+    This class is the main simulator. From here all functionality can be selected.
+    """
+    def __init__(self):
+        super().__init__()
+        #Calling the main page interface
+        self.QCUI()
+
+    def QCUI(self):
+        #Creating the window
+        self.setGeometry(100, 100, 300, 200)
+        self.setWindowTitle('Simulator')
+
+        #Buttons for each algorithm, plus an extra that takes the user to a help page
+        Grovers = QPushButton('Grovers', self)
+        Grovers.clicked.connect(self.Grov_alg)
+        Grovers.move(50, 50)
+
+        Shor_search = QPushButton('Shor Search', self)
+        Shor_search.clicked.connect(self.Shor_search_alg)
+        Shor_search.move(150, 50)
+
+        Shor_error = QPushButton('Error Correction', self)
+        Shor_error.clicked.connect(self.Shor_err_alg)
+        Shor_error.move(50, 100)
+
+        Help = QPushButton('Help', self)
+        Help.clicked.connect(self.Help_alg)
+        Help.move(150, 100)
+
+        #Show the interface
+        self.show()
+
+    #All the methods we need for the emulator
+    def Grov_alg(self):
+        self.grov_window = GrovWindow()
+
+    def Shor_search_alg(self):
+        self.shor_window = ShorWindow()       
+
+    def Shor_err_alg(self):
+        self.err_window = ErrWindow()
+
+    def Help_alg(self):
+        self.help_window = HelpWindow()
+        
+#These can be filled with the code once its done.
+class GrovWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.Win()
+
+    def Win(self):
+        self.setGeometry(100, 100, 300, 200)
+        self.setWindowTitle("Grover's Algorithm")
+        
+        
+        self.show()
+
+
+class ShorWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.Win()
+        
+    def Win(self):
+        self.setGeometry(100, 100, 300, 200)
+        self.setWindowTitle("Shor's Algorithm")
+        
+        
+        self.show()
+        
+        
+        
+class ErrWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.Win()
+    
+        
+    def Win(self):
+        self.setGeometry(100, 100, 300, 200)
+        self.setWindowTitle("Error Correction Algorithm")
+        
+        self.show()
+        
+
+#Open up the help page
+class HelpWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.Win()
+
+    def Win(self):
+        
+        #Creating the help page
+        self.setGeometry(100, 100, 300, 200)
+        self.setWindowTitle('Help')
+
+        #Create the help buttons
+        Q = QPushButton("Qubit", self)
+        R = QPushButton("Register", self)
+        H = QPushButton("H-gate", self)
+        X = QPushButton("X-gate", self)
+        Y = QPushButton("Y-gate", self)
+        Z = QPushButton("Z-gate", self)
+        CNOT = QPushButton("CNOT-gate", self)
+        T = QPushButton("T-gate", self)
+        Grov = QPushButton("Grovers Alogorithm", self)
+        Shor = QPushButton("Shors Algorithm", self)
+        Err = QPushButton("Error Correction", self)
+
+        #Connecting buttons to their respective information text box
+        Q.clicked.connect(self.Q_click)
+        R.clicked.connect(self.R_click)
+        H.clicked.connect(self.H_click)
+        X.clicked.connect(self.X_click)
+        Y.clicked.connect(self.Y_click)
+        Z.clicked.connect(self.Z_click)
+        CNOT.clicked.connect(self.CNOT_click)
+        T.clicked.connect(self.T_click)
+        Grov.clicked.connect(self.Grov_click)
+        Shor.clicked.connect(self.Shor_click)
+        Err.clicked.connect(self.Err_click)
+
+        #creating a layout for the buttons
+        button_layout = QVBoxLayout()
+        button_layout.addWidget(Q)
+        button_layout.addWidget(R)
+        button_layout.addWidget(H)
+        button_layout.addWidget(X)
+        button_layout.addWidget(Y)
+        button_layout.addWidget(Z)
+        button_layout.addWidget(CNOT)
+        button_layout.addWidget(T)
+        button_layout.addWidget(Grov)
+        button_layout.addWidget(Shor)
+        button_layout.addWidget(Err)
+        
+        #placing the layout on the empty window
+        layout = QVBoxLayout()
+        layout.addLayout(button_layout)
+
+        #showing the window
+        self.setLayout(layout)
+        self.show()
+
+    #When a button is pressed, it will display a brief description about the function/theory
+    def Q_click(self):
+        QMessageBox.information(self, "Qubit", "A qubit is the unit of quantum information. It exists in two states at once, which means it can perform multiple calculations at the same time.")
+
+    def R_click(self):
+        QMessageBox.information(self, "Register", "A quantum register is a collection of qubits. The number of qubits determines the amount of information that can be stored. Storing qubits in a register allows for them to be measured and manipulated independently")
+
+    def H_click(self):
+        QMessageBox.information(self, "Hadamard Gate", "The hadamard gate is applied to individual qubits. It forces it into superposition where the two basis states have equal probability. See more: https://qiskit.org/textbook/ch-states/single-qubit-gates.html#hgate")
+                                
+    def X_click(self):
+        QMessageBox.information(self, "X Gate", "The X gate flips the state of a qubit, i.e from 0 to 1. Also known as a NOT gate. See more: https://qiskit.org/textbook/ch-states/single-qubit-gates.html#xgate")
+                                
+    def Y_click(self):
+        QMessageBox.information(self, "Y Gate", "The Y gate rotates the state of a qubit around the y-axis of the Bloch Sphere. This gives a combination of basis states. See more: https://qiskit.org/textbook/ch-states/single-qubit-gates.html#ynzgatez")
+    
+    def Z_click(self):
+        QMessageBox.information(self, "Z Gate", "The Z gate flips the phase of a qubit, rotating its state around the z-axis of the Bloch Sphere. See more:  https://qiskit.org/textbook/ch-states/single-qubit-gates.html#ynzgatez")
+                                
+    def CNOT_click(self):
+        QMessageBox.information(self, "CNOT Gate", "The CNOT gate is similar to the X gate, except it only applies on the qubit if it is in state |1>. See more: https://qiskit.org/textbook/ch-gates/multiple-qubits-entangled-states.html#cnot")
+                                
+    def T_click(self):
+        QMessageBox.information(self, "T-Gate", "The T gate is similar to a Z-gate, however here the qubit state is only rotated a quarter turn around the Z-axis. See more: https://qiskit.org/textbook/ch-states/single-qubit-gates.html#tgate")
+                    
+    def Grov_click(self):
+        QMessageBox.information(self, "Grovers Algorithm", "Grover's algorithm is used to quickly search an unsorted database. It does so considerably faster than classical computer algorithms. It works by creating a superposition of all possible states via a Hadamard gate. It then applies a series of operations to amplify the probability of the desired state. This is done until the desired state is found with high probability. See here: https://qiskit.org/textbook/ch-algorithms/grover.html")
+
+    def Shor_click(self):
+        QMessageBox.information(self, "Shors Algorithm", "Shors algorithm is used to find the prime factors of an integer, it works via exploiting periodicity and using a quantum fourier transform. It is very useful for breaking encryption. See more: https://qiskit.org/textbook/ch-algorithms/shor.html")
+    
+    def Err_click(self):
+        QMessageBox.information(self, "Error Correction", "Algorithm used to protect against common types of errors in quantum systems. See more: https://qiskit.org/textbook/ch-quantum-hardware/error-correction-repetition-code.html")
+       
+
+#%%       
+if __name__ == '__main__':
+ 
+    app = QApplication(sys.argv)
+        
+    window = Quant_Comp()
+        
+    sys.exit(app.exec_())
